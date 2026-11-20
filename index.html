@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>내 인생 명리 산책 — 정밀 명리 분석</title>
+<style>
+  :root {
+    --bg: #f3f2ee;
+    --card: #ffffff;
+    --ink: #1e242b;
+    --muted: #5a636e;
+    --line: #dcd8d0;
+    --navy: #143668;
+    --crimson: #8f2436;
+    --accent: #1d4477;
+    --accent-soft: #eef2f8;
+    --gold-soft: #fff9eb;
+    --gold-line: #e4c678;
+    --wood: #2e7d32;
+    --fire: #c62828;
+    --earth: #8d6e63;
+    --metal: #546e7a;
+    --water: #1565c0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+  }
+  .top-banner {
+    background: linear-gradient(120deg, #143668 0%, #f4f5f7 52%, #8f2436 100%);
+    padding: 24px 20px;
+    border-bottom: 3px solid var(--navy);
+  }
+  .top-banner-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+  }
+  .top-banner-inner > div:first-child { text-align: center; width: 100%; }
+  .top-banner-inner .btn-row { justify-content: center; }
+  .brand-title {
+    margin: 0;
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.88);
+  }
+  .brand-sub {
+    margin-top: 4px;
+    font-size: 0.88rem;
+    color: #272d35;
+    font-weight: 600;
+  }
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  button {
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--ink);
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  button:hover { background: var(--accent-soft); border-color: var(--accent); }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .main-wrap {
+    max-width: 1180px;
+    margin: 22px auto;
+    padding: 0 18px 60px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .sec-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 16px;
+    font-size: 1.14rem;
+    font-weight: 800;
+    color: var(--ink);
+  }
+  .sec-heading::before {
+    content: "";
+    width: 4px;
+    height: 22px;
+    background: var(--crimson);
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .input-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+  }
+  .field-box label {
+    display: block;
+    font-size: 0.86rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  .field-box input, .field-box select {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid #cbd2dc;
+    border-radius: 8px;
+    font-size: 0.93rem;
+    background: #fff;
+    color: var(--ink);
+  }
+  .note-caption {
+    margin-top: 10px;
+    font-size: 0.84rem;
+    color: var(--muted);
+  }
+  .table-scroll { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.89rem;
+    min-width: 680px;
+  }
+  th, td {
+    border: 1px solid var(--line);
+    padding: 9px 7px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  th {
+    background: var(--accent-soft);
+    color: var(--ink);
+    font-weight: 700;
+  }
+  td.left, th.left { text-align: left; }
+  .hanja-lg { font-size: 1.35rem; font-weight: 800; display: block; line-height: 1.25; }
+  .el-목 { color: var(--wood); }
+  .el-화 { color: var(--fire); }
+  .el-토 { color: var(--earth); }
+  .el-금 { color: var(--metal); }
+  .el-수 { color: var(--water); }
+  .summary-strip {
+    margin-top: 14px;
+    padding: 13px 15px;
+    background: #f8f9fc;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--navy);
+    border-radius: 8px;
+    font-size: 0.91rem;
+  }
+  .sub-sec-title {
+    margin: 22px 0 10px;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--navy);
+  }
+  .detail-list {
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .detail-list li {
+    padding: 10px 12px;
+    border-bottom: 1px solid #ece9e2;
+    font-size: 0.9rem;
+  }
+  .detail-list li.highlight-item {
+    background: var(--gold-soft);
+    border: 1px solid var(--gold-line);
+    border-radius: 6px;
+    margin: 6px 0;
+  }
+  .diag-block {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .diag-head {
+    background: var(--accent-soft);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .diag-head h3 {
+    margin: 0;
+    font-size: 1.02rem;
+    font-weight: 800;
+    color: var(--navy);
+  }
+  .pill-badge {
+    background: #fff;
+    border: 1px solid #c3cfe0;
+    color: var(--navy);
+    padding: 3px 10px;
+    border-radius: 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+  .diag-body { padding: 16px; }
+  .box-tag {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .tag-comp { background: #e8eef7; color: var(--navy); }
+  .tag-pro { background: #f6e9ec; color: var(--crimson); }
+  .pro-box {
+    margin-top: 14px;
+    padding: 13px 15px;
+    background: #faf9f6;
+    border: 1px solid #e3dfd7;
+    border-left: 4px solid var(--crimson);
+    border-radius: 6px;
+    font-size: 0.9rem;
+  }
+  .gung-item {
+    padding: 9px 12px;
+    background: #f9fafc;
+    border: 1px solid #e4e8f0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+  }
+  .story-box {
+    padding: 18px 20px;
+    background: #fbfaf7;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--navy);
+    border-radius: 8px;
+    font-size: 0.94rem;
+    line-height: 1.82;
+  }
+  .story-box p { margin: 0 0 12px; text-align: justify; }
+  .story-box p:last-child { margin-bottom: 0; }
+  .story-box .story-subhead { color: var(--navy); font-weight: 800; margin: 18px 0 6px; text-align: left; }
+  .story-box .story-note { color: var(--muted); font-size: .86rem; }
+  .advice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .advice-card {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 15px;
+    background: #fcfcfa;
+  }
+  .advice-card h4 {
+    margin: 0 0 8px;
+    font-size: 0.96rem;
+    color: var(--navy);
+  }
+  .footer-bar {
+    text-align: center;
+    margin-top: 24px;
+  }
+  @media print {
+    .no-print { display: none !important; }
+    body { background: #fff; }
+    .card { box-shadow: none; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-banner">
+  <div class="top-banner-inner">
+    <div>
+      <h1 class="brand-title">내 인생 명리 산책</h1>
+      <div class="brand-sub" id="topSubTitle">[상세 유무선 상담은 카카오톡 ID temp21 연결] · 정밀 명리 산책 리포트</div>
+    </div>
+    <div class="btn-row no-print">
+      <button id="btnPrintPdf" type="button">전체 분석 결과 PDF 인쇄 / 저장</button>
+    </div>
+  </div>
+</div>
+
+<div class="main-wrap">
+
+  <!-- 1. 명식 정보 입력 -->
+  <section class="card no-print">
+    <div class="sec-heading">1. 명식 정보 및 맞춤 질문 입력</div>
+    <div class="input-grid">
+      <div class="field-box">
+        <label for="inpName">이름 (호칭)</label>
+        <input type="text" id="inpName" value="" placeholder="이름 또는 호칭 입력">
+      </div>
+      <div class="field-box">
+        <label for="selGender">성별</label>
+        <select id="selGender">
+          <option value="" selected>성별 선택</option>
+          <option value="M">남성 (건명)</option>
+          <option value="F">여성 (곤명)</option>
+        </select>
+      </div>
+      <div class="field-box">
+        <label for="inpBirthDate">생년월일 (양력)</label>
+        <input type="date" id="inpBirthDate" value="">
+      </div>
+      <div class="field-box">
+        <label for="inpBirthTime">출생시간</label>
+        <input type="time" id="inpBirthTime" value="">
+      </div>
+      <div class="field-box">
+        <label for="selTimeUnknown">시간 모름 여부</label>
+        <select id="selTimeUnknown">
+          <option value="" selected>출생시간 여부 선택</option>
+          <option value="known">시간 정확함 (4주 분석)</option>
+          <option value="unknown">시간 모름 (3주 기준 분석)</option>
+        </select>
+      </div>
+      <div class="field-box">
+        <label for="inpTargetYear">기준 세운/월운 연도</label>
+        <input type="number" id="inpTargetYear" value="" min="1950" max="2080" placeholder="예: 2026">
+      </div>
+      <div class="field-box">
+        <label for="selTargetMonth">기준 월운 (양력 월)</label>
+        <select id="selTargetMonth">
+          <option value="1">1월 (축월·소한)</option>
+          <option value="2">2월 (인월·입춘)</option>
+          <option value="3">3월 (묘월·경칩)</option>
+          <option value="4">4월 (진월·청명)</option>
+          <option value="5">5월 (사월·입하)</option>
+          <option value="6">6월 (오월·망종)</option>
+          <option value="7">7월 (미월·소서)</option>
+          <option value="8">8월 (신월·입추)</option>
+          <option value="9">9월 (유월·백로)</option>
+          <option value="10">10월 (술월·한로)</option>
+          <option value="" selected>월 선택</option>
+          <option value="11">11월 (해월·입동)</option>
+          <option value="12">12월 (자월·대설)</option>
+        </select>
+      </div>
+      <div class="field-box">
+        <label for="inpQuestion">맞춤 질문</label>
+        <input type="text" id="inpQuestion" value="" placeholder="선택 입력">
+      </div>
+    </div>
+    <div style="margin-top:14px; display:flex; gap:8px; flex-wrap:wrap;">
+      <button class="primary" id="btnRun" type="button">분석 실행</button>
+      <button id="btnReset" type="button">기본값 초기화</button>
+    </div>
+  </section>
+
+  <!-- 2. 사주 원국 만세력 표 -->
+  <section class="card">
+    <div class="sec-heading" id="sec2Title">2. 사주 원국 만세력 표</div>
+    <div class="note-caption" id="manseryeokMeta"></div>
+    <div class="table-scroll" style="margin-top:12px;" id="manseryeokTableWrap"></div>
+    <div class="summary-strip" id="ohengDiagStrip"></div>
+
+    <div class="sub-sec-title">인생 전체 종합 스토리 요약</div>
+    <div class="story-box" id="storySummaryBox"></div>
+  </section>
+
+  <!-- 3. 대운·세운·월운 흐름표 -->
+  <section class="card">
+    <div class="sec-heading">3. 대운(大運)ㆍ세운(歲運)ㆍ월운(月運) 흐름표</div>
+    <div class="note-caption">※ 대운은 성별과 년간 음양에 따른 순행/역행 및 다음/이전 절입일까지의 일수(3일=1년)로 계산됩니다.</div>
+
+    <div class="sub-sec-title">대운표 (10년 주기)</div>
+    <div class="table-scroll" id="daewoonTableWrap"></div>
+    <ul class="detail-list" id="daewoonDetailList"></ul>
+
+    <div class="sub-sec-title">세운표 (10개년 흐름)</div>
+    <div class="table-scroll" id="sewoonTableWrap"></div>
+    <ul class="detail-list" id="sewoonDetailList"></ul>
+
+    <div class="sub-sec-title" id="wolwoonSubTitle">해당 연도 월운표 (12개월 절기 기준)</div>
+    <div class="table-scroll" id="wolwoonTableWrap"></div>
+  </section>
+
+  <!-- 4. 원국 및 운세 정밀 분석 -->
+  <section class="card">
+    <div class="sec-heading">4. 원국 및 운세 정밀 분석 (길흉 객관 진단)</div>
+    <div class="note-caption" style="margin-bottom:14px;">※ 모든 항목은 [종합 해석]을 먼저 제시하고, 바로 아래 [전문 해석 및 검증]으로 구조화되어 있습니다. 12신살, 궁성(年·月·日·時)의 변화와 작용, 주요 길흉신살을 교차 검증합니다.</div>
+    <div id="section4Container"></div>
+  </section>
+
+  <!-- 5. 맞춤 질문 명리 대입 분석 -->
+  <section class="card">
+    <div class="sec-heading">5. 맞춤 질문 명리 대입 분석 (원국 + 대운 + 세운 + 월운)</div>
+    <div id="section5Container"></div>
+  </section>
+
+  <!-- 6. 종합의견 -->
+  <section class="card">
+    <div class="sec-heading">6. 종합의견 (길흉 핵심 요약 및 실행 조언)</div>
+    <div id="section6Container"></div>
+    <div class="footer-bar no-print">
+      <button class="primary" id="btnBottomPrint" type="button">전체 분석 결과 PDF 인쇄 / 저장</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const GANS = [
+  { h: "甲", k: "갑", el: "목", yy: "양" },
+  { h: "乙", k: "을", el: "목", yy: "음" },
+  { h: "丙", k: "병", el: "화", yy: "양" },
+  { h: "丁", k: "정", el: "화", yy: "음" },
+  { h: "戊", k: "무", el: "토", yy: "양" },
+  { h: "己", k: "기", el: "토", yy: "음" },
+  { h: "庚", k: "경", el: "금", yy: "양" },
+  { h: "辛", k: "신", el: "금", yy: "음" },
+  { h: "壬", k: "임", el: "수", yy: "양" },
+  { h: "癸", k: "계", el: "수", yy: "음" }
+];
+
+const JIS = [
+  { h: "子", k: "자", el: "수", yy: "양", ani: "쥐", hid: [{ g: "壬", d: 10 }, { g: "癸", d: 20 }] },
+  { h: "丑", k: "축", el: "토", yy: "음", ani: "소", hid: [{ g: "癸", d: 9 }, { g: "辛", d: 3 }, { g: "己", d: 18 }] },
+  { h: "寅", k: "인", el: "목", yy: "양", ani: "호랑이", hid: [{ g: "戊", d: 7 }, { g: "丙", d: 7 }, { g: "甲", d: 16 }] },
+  { h: "卯", k: "묘", el: "목", yy: "음", ani: "토끼", hid: [{ g: "甲", d: 10 }, { g: "乙", d: 20 }] },
+  { h: "辰", k: "진", el: "토", yy: "양", ani: "용", hid: [{ g: "乙", d: 9 }, { g: "癸", d: 3 }, { g: "戊", d: 18 }] },
+  { h: "巳", k: "사", el: "화", yy: "음", ani: "뱀", hid: [{ g: "戊", d: 7 }, { g: "庚", d: 7 }, { g: "丙", d: 16 }] },
+  { h: "午", k: "오", el: "화", yy: "양", ani: "말", hid: [{ g: "丙", d: 10 }, { g: "己", d: 9 }, { g: "丁", d: 11 }] },
+  { h: "未", k: "미", el: "토", yy: "음", ani: "양", hid: [{ g: "丁", d: 9 }, { g: "乙", d: 3 }, { g: "己", d: 18 }] },
+  { h: "申", k: "신", el: "금", yy: "양", ani: "원숭이", hid: [{ g: "戊", d: 7 }, { g: "壬", d: 7 }, { g: "庚", d: 16 }] },
+  { h: "酉", k: "유", el: "금", yy: "음", ani: "닭", hid: [{ g: "庚", d: 10 }, { g: "辛", d: 20 }] },
+  { h: "戌", k: "술", el: "토", yy: "양", ani: "개", hid: [{ g: "辛", d: 9 }, { g: "丁", d: 3 }, { g: "戊", d: 18 }] },
+  { h: "亥", k: "해", el: "수", yy: "음", ani: "돼지", hid: [{ g: "戊", d: 7 }, { g: "甲", d: 7 }, { g: "壬", d: 16 }] }
+];
+
+const UNSUNG_12 = ["장생", "목욕", "관대", "건록", "제왕", "쇠", "병", "사", "묘", "절", "태", "양"];
+const SINSAL_12 = ["겁살", "재살", "천살", "지살", "도화살(년살)", "월살", "망신살", "장성살", "반안살", "역마살", "육해살", "화개살"];
+
+const SINSAL_DESC = {
+  "겁살": "외부로부터 강제적인 압박이나 예상치 못한 변수가 들이닥쳐 내 것을 빼앗기거나 경쟁에 내몰리는 기운입니다. 무리한 확장·보증·투자를 자제하고 방어적 태세를 갖추면 오히려 위기를 통해 내실을 다지는 계기가 됩니다.",
+  "재살": "수옥살(囚獄殺)이라고도 하며, 환경적 제약·구속감·심리적 압박 속에서 지혜로 돌파구를 찾는 기운입니다. 외부 활동보다 연구·기획·전략 수립에 집중하며 때를 기다리면 치밀한 두뇌 회전으로 난관을 빠져나옵니다.",
+  "천살": "인간의 힘으로 어찌할 수 없는 하늘의 뜻·불가항력적 환경 변화 및 정신적·철학적 각성을 의미합니다. 억지로 상황을 거스르기보다 순리를 따르고 학문·신앙·수양을 통해 내면의 중심을 잡을 때 길하게 작용합니다.",
+  "지살": "새로운 땅을 밟고 출발하는 기운으로, 직접 발로 뛰는 현장 실행력과 활동 반경의 확장을 뜻합니다. 이직·창업·출장·새로운 프로젝트 착수 등 능동적으로 움직일 때 실질적인 성과가 만들어집니다.",
+  "도화살(년살)": "복숭아꽃처럼 사람들의 시선과 호감을 사로잡는 매력·예술성·감수성을 상징합니다. 대중을 상대하는 일이나 창작·브랜딩에서 강력한 무기가 되지만, 이성 문제와 구설수를 철저히 관리해야 합니다.",
+  "월살": "고초살(枯草殺)이라고도 하며, 햇빛 대신 달빛에 의지하듯 정체기 속에서 내면을 성숙시키는 기운입니다. 당장의 화려한 결실보다 실력을 갈고닦고 전문성을 축적하는 시기로 삼으면 어둠을 밝히는 지혜가 빛을 발합니다.",
+  "망신살": "감춰진 내면이나 비밀이 외부로 드러나며 체면 손상을 겪거나, 반대로 자신을 과감히 노출해 승부하는 기운입니다. 언행과 공사의 구분을 명확히 하여 구설을 막고, 투명한 실력과 콘텐츠로 승부하면 오히려 명성을 얻습니다.",
+  "장성살": "장군이 군대를 통솔하듯 해당 영역의 중심을 장악하고 권위·리더십·주도권을 쥐는 기운입니다. 조직의 핵심 책임을 맡아 추진력을 발휘하기 좋으나, 지나친 고집과 독선으로 주변을 억누르지 않도록 주의해야 합니다.",
+  "반안살": "말 안장에 편안히 올라탄 형상으로, 안정·승진·기반 확립 및 주변의 추대를 받는 길한 기운입니다. 기존의 노력이 인정받아 안정적인 지위나 환경을 확보하며, 안전하고 실속 있는 성장이 이루어집니다.",
+  "역마살": "한곳에 머무르지 않고 끊임없이 이동·변화·교류하며 새로운 무대를 개척하는 역동적인 기운입니다. 해외 원거리 활동, 출장, 유통, 다변화된 업무 환경에서 능력이 극대화되며 정체되면 오히려 답답함이 커집니다.",
+  "육해살": "크고 작은 장애물과 잔병치레·신경 소모가 잦아 세심한 관리와 인내가 요구되는 기운입니다. 무리한 일정보다 건강 관리와 디테일 점검에 신경 쓰며 한 걸음씩 차분히 나아가야 소모전을 피할 수 있습니다.",
+  "화개살": "화려함을 덮고 본질로 돌아가는 기운으로, 학문·예술·철학·종교적 깊이와 고독한 몰입을 의미합니다. 창작·명리·연구·전문 기술 등 혼자 깊이 파고드는 분야에서 탁월한 성취를 이루며 과거의 자산을 재해석해 빛을 봅니다."
+};
+
+function ganByH(h) { return GANS.find(x => x.h === h); }
+function jiByH(h) { return JIS.find(x => x.h === h); }
+function gjBy60(idx) {
+  const i = ((idx % 60) + 60) % 60;
+  return { idx60: i, gan: GANS[i % 10], ji: JIS[i % 12], text: GANS[i % 10].h + JIS[i % 12].h, kor: GANS[i % 10].k + JIS[i % 12].k };
+}
+
+function sipSung(dayGanH, el, yy) {
+  const dg = ganByH(dayGanH);
+  const same = dg.yy === yy;
+  const gen = { 목: "화", 화: "토", 토: "금", 금: "수", 수: "목" };
+  const ctrl = { 목: "토", 화: "금", 토: "수", 금: "목", 수: "화" };
+  const byCtrl = { 목: "금", 화: "수", 토: "목", 금: "화", 수: "토" };
+  const byGen = { 목: "수", 화: "목", 토: "화", 금: "토", 수: "금" };
+  if (el === dg.el) return same ? "비견" : "겁재";
+  if (gen[dg.el] === el) return same ? "식신" : "상관";
+  if (ctrl[dg.el] === el) return same ? "편재" : "정재";
+  if (byCtrl[dg.el] === el) return same ? "편관" : "정관";
+  if (byGen[dg.el] === el) return same ? "편인" : "정인";
+  return "비견";
+}
+
+function unsung12(dayGanH, jiH) {
+  const startMap = { 甲: "亥", 乙: "午", 丙: "寅", 丁: "酉", 戊: "寅", 己: "酉", 庚: "巳", 辛: "子", 壬: "申", 癸: "卯" };
+  const fwd = ["甲", "丙", "戊", "庚", "壬"].includes(dayGanH);
+  const sIdx = JIS.findIndex(j => j.h === startMap[dayGanH]);
+  const tIdx = JIS.findIndex(j => j.h === jiH);
+  const off = fwd ? (tIdx - sIdx + 12) % 12 : (sIdx - tIdx + 12) % 12;
+  return UNSUNG_12[off];
+}
+
+function sinsal12(baseJiH, targetJiH) {
+  const groups = [
+    { m: ["寅", "午", "戌"], s: "亥" },
+    { m: ["巳", "酉", "丑"], s: "寅" },
+    { m: ["申", "子", "辰"], s: "巳" },
+    { m: ["亥", "卯", "未"], s: "申" }
+  ];
+  const g = groups.find(x => x.m.includes(baseJiH)) || groups[2];
+  const sIdx = JIS.findIndex(j => j.h === g.s);
+  const tIdx = JIS.findIndex(j => j.h === targetJiH);
+  return SINSAL_12[(tIdx - sIdx + 12) % 12];
+}
+
+function getTrueSolarDateTime(y, m, d, hh, mm, timeUnknown) {
+  if (timeUnknown) return { y, m, d, hh: 12, mm: 0, note: "시간 미상 (정오 기준 3주 분석)" };
+  const dt = new Date(Date.UTC(y, m - 1, d, hh, mm) - 30 * 60000);
+  const cy = dt.getUTCFullYear(), cm = dt.getUTCMonth() + 1, cd = dt.getUTCDate();
+  const chh = dt.getUTCHours(), cmm = dt.getUTCMinutes();
+  const pad = n => String(n).padStart(2, "0");
+  return { y: cy, m: cm, d: cd, hh: chh, mm: cmm, note: `${cy}년 ${pad(cm)}월 ${pad(cd)}일 ${pad(chh)}:${pad(cmm)}` };
+}
+
+function getJeolipList(year) {
+  const defs = [
+    { m: 1, d: 6, h: 0, min: 0, sm: 11 },
+    { m: 2, d: 4, h: 12, min: 0, sm: 0 },
+    { m: 3, d: 6, h: 6, min: 0, sm: 1 },
+    { m: 4, d: 5, h: 10, min: 0, sm: 2 },
+    { m: 5, d: 6, h: 3, min: 0, sm: 3 },
+    { m: 6, d: 6, h: 7, min: 0, sm: 4 },
+    { m: 7, d: 7, h: 17, min: 0, sm: 5 },
+    { m: 8, d: 8, h: 3, min: 0, sm: 6 },
+    { m: 9, d: 8, h: 6, min: 0, sm: 7 },
+    { m: 10, d: 8, h: 21, min: 0, sm: 8 },
+    { m: 11, d: 8, h: 0, min: 0, sm: 9 },
+    { m: 12, d: 7, h: 17, min: 0, sm: 10 }
+  ];
+  return defs.map(x => ({ ts: Date.UTC(year, x.m - 1, x.d, x.h, x.min), sm: x.sm }));
+}
+
+function calcYear(y, m, d, hh = 12, mm = 0) {
+  const curTs = Date.UTC(y, m - 1, d, hh, mm);
+  const ipchunTs = Date.UTC(y, 1, 4, 12, 0);
+  const ey = curTs < ipchunTs ? y - 1 : y;
+  const idx = ((ey - 1984) % 60 + 6000) % 60;
+  return { gan: GANS[idx % 10], ji: JIS[idx % 12], idx60: idx, ey };
+}
+
+function calcMonthAndDwStart(yGanH, y, m, d, hh, mm, isFwd) {
+  const curTs = Date.UTC(y, m - 1, d, hh, mm);
+  const allJeol = [...getJeolipList(y - 1), ...getJeolipList(y), ...getJeolipList(y + 1)].sort((a, b) => a.ts - b.ts);
+  let prevIdx = 0;
+  for (let i = 0; i < allJeol.length; i++) {
+    if (allJeol[i].ts <= curTs) prevIdx = i;
+    else break;
+  }
+  const prevJeol = allJeol[prevIdx];
+  const nextJeol = allJeol[prevIdx + 1] || allJeol[prevIdx];
+  const sm = prevJeol.sm;
+  const jiOrder = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"];
+  const ji = jiByH(jiOrder[sm]);
+  const startMap = { 甲: 2, 己: 2, 乙: 4, 庚: 4, 丙: 6, 辛: 6, 丁: 8, 壬: 8, 戊: 0, 癸: 0 };
+  const gan = GANS[(startMap[yGanH] + sm) % 10];
+  const diffDays = isFwd ? (nextJeol.ts - curTs) / 86400000 : (curTs - prevJeol.ts) / 86400000;
+  let dwStart = Math.round(diffDays / 3);
+  if (dwStart < 1) dwStart = 1;
+  if (dwStart > 10) dwStart = 10;
+  return { gan, ji, sm, dwStart };
+}
+
+function calcDay(y, m, d, hh = 12, mm = 0) {
+  let dayShift = 0;
+  if (hh === 23 && mm >= 30) dayShift = 1;
+  const base = Date.UTC(1969, 9, 16);
+  const cur = Date.UTC(y, m - 1, d + dayShift);
+  const diff = Math.floor((cur - base) / 86400000);
+  const idx = ((diff % 60) + 60) % 60;
+  return { gan: GANS[idx % 10], ji: JIS[idx % 12], idx60: idx };
+}
+
+function calcHour(dayGanH, hh, mm) {
+  const tot = hh * 60 + mm;
+  let jh;
+  if (tot >= 23 * 60 + 30 || tot < 1 * 60 + 30) jh = "子";
+  else if (tot < 3 * 60 + 30) jh = "丑";
+  else if (tot < 5 * 60 + 30) jh = "寅";
+  else if (tot < 7 * 60 + 30) jh = "卯";
+  else if (tot < 9 * 60 + 30) jh = "辰";
+  else if (tot < 11 * 60 + 30) jh = "巳";
+  else if (tot < 13 * 60 + 30) jh = "午";
+  else if (tot < 15 * 60 + 30) jh = "未";
+  else if (tot < 17 * 60 + 30) jh = "申";
+  else if (tot < 19 * 60 + 30) jh = "酉";
+  else if (tot < 21 * 60 + 30) jh = "戌";
+  else jh = "亥";
+  const ji = jiByH(jh);
+  const jiIdx = { 子: 0, 丑: 1, 寅: 2, 卯: 3, 辰: 4, 巳: 5, 午: 6, 未: 7, 申: 8, 酉: 9, 戌: 10, 亥: 11 }[jh];
+  const startMap = { 甲: 0, 己: 0, 乙: 2, 庚: 2, 丙: 4, 辛: 4, 丁: 6, 壬: 6, 戊: 8, 癸: 8 };
+  const gan = GANS[(startMap[dayGanH] + jiIdx) % 10];
+  return { gan, ji };
+}
+
+function calcGongmang(dayIdx60) {
+  const start = Math.floor(dayIdx60 / 10) * 10;
+  const xunJiStart = start % 12;
+  return [JIS[(xunJiStart + 10) % 12], JIS[(xunJiStart + 11) % 12]];
+}
+
+function getSpecialSinsals(dayGanH, dayJiH, monthJiH, ganH, jiH) {
+  const res = [];
+  const cheoneul = {
+    "甲": ["丑", "未"], "戊": ["丑", "未"], "庚": ["丑", "未"],
+    "乙": ["子", "申"], "己": ["子", "申"],
+    "丙": ["亥", "酉"], "丁": ["亥", "酉"],
+    "壬": ["卯", "巳"], "癸": ["卯", "巳"],
+    "辛": ["寅", "午"]
+  };
+  if ((cheoneul[dayGanH] || []).includes(jiH)) {
+    res.push({
+      name: "천을귀인", type: "길신",
+      meaning: "하늘이 내린 최고의 길신(吉神)으로, 위기 순간에 귀인의 도움이나 하늘의 보호가 따르는 기운입니다.",
+      action: "흉살의 피해를 크게 감면하고, 사회적 신뢰·인덕·난관 돌파의 결정적 조력을 이끌어냅니다."
+    });
+  }
+  const hyunChimG = ["甲", "辛"];
+  const hyunChimJ = ["卯", "午", "申"];
+  if (hyunChimG.includes(ganH) || hyunChimJ.includes(jiH)) {
+    res.push({
+      name: "현침살", type: "흉살/양면",
+      meaning: "바늘 끝처럼 예리한 관찰력·분석력·정밀함을 상징하는 신살입니다.",
+      action: "정밀공학·의료·침술·디자인·감사·심리분석 등 활인·전문직에 매우 유리하나, 날카로운 말로 타인에게 상처를 주거나 구설에 오르기 쉽습니다."
+    });
+  }
+  const munchang = { "甲": "巳", "乙": "午", "丙": "申", "丁": "酉", "戊": "申", "己": "酉", "庚": "亥", "辛": "子", "壬": "寅", "癸": "卯" };
+  if (munchang[dayGanH] === jiH) {
+    res.push({
+      name: "문창귀인", type: "길신",
+      meaning: "학문·문서·발표·기획에서 총명함과 표현력을 발휘하는 귀인입니다.",
+      action: "시험·자격·집필·계약 및 전문 지식 전달에서 유리하게 작용합니다."
+    });
+  }
+  return res;
+}
+
+function evalJiPair(jiA, jiB) {
+  const pair = [jiA, jiB].sort().join("");
+  const map = {
+    "子丑": ["자축합(토)", "합"],
+    "寅亥": ["인해합(목)", "합"],
+    "卯戌": ["묘술합(화)", "합"],
+    "辰酉": ["진유합(금)", "합"],
+    "巳申": ["사신합(수)", "합"],
+    "午未": ["오미합(화)", "합"],
+    "子午": ["자오충", "충"],
+    "丑未": ["축미충", "충"],
+    "寅申": ["인신충", "충"],
+    "卯酉": ["묘유충", "충"],
+    "辰戌": ["진술충", "충"],
+    "巳亥": ["사해충", "충"],
+    "丑戌": ["축술형(지세지형)", "형"],
+    "未戌": ["술미형(지세지형)", "형"],
+    "寅巳": ["인사형(무은지형)", "형"],
+    "巳申": ["사신형(무은지형)", "형"],
+    "子卯": ["자묘형(무례지형)", "형"],
+    "子酉": ["자유파", "파"],
+    "丑辰": ["축진파", "파"],
+    "未戌": ["미술파", "파"],
+    "丑午": ["축오해", "해"],
+    "子未": ["자미해", "해"],
+    "酉戌": ["유술해", "해"]
+  };
+  const out = [];
+  if (map[pair]) out.push({ label: map[pair][0], kind: map[pair][1] });
+  if (["子酉", "丑午", "巳戌", "寅未", "卯申", "辰亥"].includes(pair)) {
+    out.push({ label: `${jiA}${jiB} 귀문관살`, kind: "귀문" });
+  }
+  if (["丑午", "子未", "巳戌", "寅酉", "卯申", "辰亥"].includes(pair)) {
+    out.push({ label: `${jiA}${jiB} 원진살`, kind: "원진" });
+  }
+  if (["子丑", "子亥", "丑亥"].includes(pair)) out.push({ label: "해자축 수방합", kind: "방합" });
+  if (["申酉", "酉戌", "申戌"].includes(pair)) out.push({ label: "신유술 금방합", kind: "방합" });
+  if (["子辰", "申子", "申辰"].includes(pair)) out.push({ label: "신자진 수국 반합", kind: "삼합" });
+  if (["丑酉", "巳酉", "巳丑"].includes(pair)) out.push({ label: "사유축 금국 반합", kind: "삼합" });
+  if (["午戌", "寅午", "寅戌"].includes(pair)) out.push({ label: "인오술 화국 반합", kind: "삼합" });
+  return out;
+}
+
+function getTargetRelations(pillars, targetJiH) {
+  const res = [];
+  pillars.forEach(p => {
+    if (p.unknown) return;
+    const items = evalJiPair(p.ji.h, targetJiH);
+    items.forEach(it => {
+      res.push({
+        pillarName: p.name,
+        pillarSub: p.sub,
+        pillarJi: p.ji.k,
+        pillarJiSip: p.jiSip,
+        label: it.label,
+        kind: it.kind
+      });
+    });
+  });
+  return res;
+}
+
+function buildModel() {
+  const clientName = (document.getElementById("inpName").value || "").trim() || "의뢰인";
+  const gender = document.getElementById("selGender").value || "M";
+  const dateParts = document.getElementById("inpBirthDate").value.split("-").map(Number);
+  const rawY = dateParts[0], rawM = dateParts[1], rawD = dateParts[2];
+  const timeUnknown = document.getElementById("selTimeUnknown").value === "unknown";
+  const rawTime = document.getElementById("inpBirthTime").value || "12:00";
+  const timeParts = (timeUnknown ? "12:00" : rawTime).split(":").map(Number);
+  const rawHH = isNaN(timeParts[0]) ? 2 : timeParts[0];
+  const rawMM = isNaN(timeParts[1]) ? 0 : timeParts[1];
+  const targetYear = parseInt(document.getElementById("inpTargetYear").value, 10);
+  const targetMonth = parseInt(document.getElementById("selTargetMonth").value, 10);
+  const question = (document.getElementById("inpQuestion").value || "").trim() || "별도 질문 없음";
+
+  const solar = getTrueSolarDateTime(rawY, rawM, rawD, rawHH, rawMM, timeUnknown);
+  const yp = calcYear(solar.y, solar.m, solar.d, solar.hh, solar.mm);
+  const isFwd = (gender === "M" && yp.gan.yy === "양") || (gender === "F" && yp.gan.yy === "음");
+  const mp = calcMonthAndDwStart(yp.gan.h, solar.y, solar.m, solar.d, solar.hh, solar.mm, isFwd);
+  const dp = calcDay(solar.y, solar.m, solar.d, solar.hh, solar.mm);
+  const hp = calcHour(dp.gan.h, solar.hh, solar.mm);
+  const gongmang = calcGongmang(dp.idx60);
+
+  const pillars = [
+    { name: "시주", sub: "말년·자녀궁", fullSub: "말년·자녀·결실궁", ...hp, unknown: timeUnknown },
+    { name: "일주", sub: "본원·배우자궁", fullSub: "본원·배우자·가정궁", ...dp, unknown: false },
+    { name: "월주", sub: "청년·사회/부모궁", fullSub: "청년·사회·부모/직업궁", ...mp, unknown: false },
+    { name: "연주", sub: "초년·조상궁", fullSub: "초년·조상·근본궁", ...yp, unknown: false }
+  ].map(p => ({
+    ...p,
+    ganSip: p.unknown ? "-" : (p.name === "일주" ? "일간(본원)" : sipSung(dp.gan.h, p.gan.el, p.gan.yy)),
+    jiSip: p.unknown ? "-" : sipSung(dp.gan.h, p.ji.el, p.ji.yy),
+    unsung: p.unknown ? "-" : unsung12(dp.gan.h, p.ji.h),
+    sinsalDay: p.unknown ? "-" : sinsal12(dp.ji.h, p.ji.h),
+    sinsalYear: p.unknown ? "-" : sinsal12(yp.ji.h, p.ji.h),
+    isGm: !p.unknown && gongmang.some(g => g.h === p.ji.h),
+    specials: p.unknown ? [] : getSpecialSinsals(dp.gan.h, dp.ji.h, mp.ji.h, p.gan.h, p.ji.h),
+    hidText: p.unknown ? "-" : p.ji.hid.map(x => `${ganByH(x.g).k}(${x.d})`).join(" ")
+  }));
+
+  // 오행 세력 가중치 계산 (월지 가중 반영)
+  const elW = { 목: 0, 화: 0, 토: 0, 금: 0, 수: 0 };
+  pillars.forEach(p => {
+    if (p.unknown) return;
+    elW[p.gan.el] += 1.0;
+    const jw = p.name === "월주" ? 2.5 : (p.name === "일주" ? 1.5 : 1.0);
+    elW[p.ji.el] += jw;
+  });
+  const sumW = Object.values(elW).reduce((a, b) => a + b, 0) || 1;
+  const elPct = {};
+  Object.keys(elW).forEach(k => { elPct[k] = Math.round((elW[k] / sumW) * 100); });
+
+  const genMap = { 목: "수", 화: "목", 토: "화", 금: "토", 수: "금" };
+  const ctrlMap = { 목: "토", 화: "금", 토: "수", 금: "목", 수: "화" };
+  const dEl = dp.gan.el;
+  const inEl = genMap[dEl];
+  const jaeEl = ctrlMap[dEl];
+  const supportPct = elPct[dEl] + elPct[inEl];
+  const strengthLabel = supportPct >= 52 ? "신강(身强)" : (supportPct >= 34 ? "중화신약(中和身弱)" : "신약(身弱)");
+  const yongEl = supportPct >= 52 ? jaeEl : dEl;
+  const heeEl = supportPct >= 52 ? genMap[jaeEl] : inEl;
+  const giEl = supportPct >= 52 ? inEl : jaeEl;
+
+  // 격국 (월지 본기 십성)
+  const mMainGanH = mp.ji.hid[mp.ji.hid.length - 1].g;
+  const mMainGan = ganByH(mMainGanH);
+  const gyeokguk = `${sipSung(dp.gan.h, mMainGan.el, mMainGan.yy)}격`;
+
+  let m60 = 0;
+  for (let i = 0; i < 60; i++) {
+    if (i % 10 === GANS.findIndex(x => x.h === mp.gan.h) && i % 12 === JIS.findIndex(x => x.h === mp.ji.h)) {
+      m60 = i; break;
+    }
+  }
+  const daewoons = [];
+  for (let k = 1; k <= 10; k++) {
+    const gj = gjBy60(m60 + (isFwd ? k : -k));
+    const a1 = mp.dwStart + (k - 1) * 10;
+    const y1 = rawY + a1 - 1;
+    const rels = getTargetRelations(pillars, gj.ji.h);
+    daewoons.push({
+      step: k, a1, a2: a1 + 9, y1, ...gj,
+      ganSip: sipSung(dp.gan.h, gj.gan.el, gj.gan.yy),
+      jiSip: sipSung(dp.gan.h, gj.ji.el, gj.ji.yy),
+      unsung: unsung12(dp.gan.h, gj.ji.h),
+      sinsal: sinsal12(dp.ji.h, gj.ji.h),
+      rels
+    });
+  }
+
+  const sewoons = [];
+  for (let yr = targetYear - 3; yr <= targetYear + 6; yr++) {
+    const gj = gjBy60(((yr - 1984) % 60 + 6000) % 60);
+    const age = yr - rawY + 1;
+    const rels = getTargetRelations(pillars, gj.ji.h);
+    sewoons.push({
+      yr, age, ...gj,
+      ganSip: sipSung(dp.gan.h, gj.gan.el, gj.gan.yy),
+      jiSip: sipSung(dp.gan.h, gj.ji.el, gj.ji.yy),
+      unsung: unsung12(dp.gan.h, gj.ji.h),
+      sinsal: sinsal12(dp.ji.h, gj.ji.h),
+      rels,
+      isCur: yr === targetYear
+    });
+  }
+
+  const tYearGan = gjBy60(((targetYear - 1984) % 60 + 6000) % 60).gan.h;
+  const mStartMap = { 甲: 2, 己: 2, 乙: 4, 庚: 4, 丙: 6, 辛: 6, 丁: 8, 壬: 8, 戊: 0, 癸: 0 };
+  const mJiSeq = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"];
+  const mNums = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1];
+  const wolwoons = mJiSeq.map((jh, idx) => {
+    const g = GANS[(mStartMap[tYearGan] + idx) % 10];
+    const j = jiByH(jh);
+    const rels = getTargetRelations(pillars, j.h);
+    return {
+      monthNum: mNums[idx],
+      text: g.h + j.h, kor: g.k + j.k,
+      gan: g, ji: j,
+      ganSip: sipSung(dp.gan.h, g.el, g.yy),
+      jiSip: sipSung(dp.gan.h, j.el, j.yy),
+      sinsal: sinsal12(dp.ji.h, j.h),
+      rels
+    };
+  });
+
+  const curAge = targetYear - rawY + 1;
+  const curDw = daewoons.find(d => curAge >= d.a1 && curAge <= d.a2) || daewoons[5];
+  const curSw = sewoons.find(s => s.isCur) || sewoons[3];
+  const curMw = wolwoons.find(w => w.monthNum === targetMonth) || wolwoons[9];
+
+  return {
+    clientName, gender, rawY, rawM, rawD, rawHH, rawMM, timeUnknown,
+    solar, targetYear, targetMonth, question, isFwd, gongmang,
+    yp, mp, dp, hp, pillars, elW, elPct, supportPct, strengthLabel,
+    yongEl, heeEl, giEl, gyeokguk,
+    daewoons, sewoons, wolwoons, curDw, curSw, curMw, curAge
+  };
+}
+
+function elRoleTag(el, m) {
+  if (el === m.yongEl || el === m.heeEl) return "길신(용·희신)";
+  if (el === m.giEl) return "기신(주의)";
+  return "중립·변화";
+}
+
+
+function buildComprehensiveStory(m) {
+  const elName = {목:"목(木)",화:"화(火)",토:"토(土)",금:"금(金)",수:"수(水)"};
+  const elOrgan = {목:"간·담 및 근육·눈",화:"심장·소장 및 혈관·체온",토:"비위·소화 및 대사",금:"폐·대장 및 피부·호흡기",수:"신장·방광 및 수분대사·생식"};
+  const elLife = {목:"기획·학습·성장·확장",화:"표현·영업·홍보·성과 노출",토:"재정·자산·운영·관리",금:"규정·기술·품질·통제",수:"정보·연구·자격·회복"};
+  const fmt = v => v === undefined || v === null || v === "" ? "자료 없음" : String(v);
+  const pct = Object.entries(m.elPct).map(([k,v])=>`${elName[k]} ${v}%`).join(" / ");
+  const elements = Object.entries(m.elPct).sort((a,b)=>b[1]-a[1]);
+  const strongest = elements[0], weakest = elements[elements.length-1];
+  const zero = elements.filter(x=>x[1]===0).map(x=>x[0]);
+  const pillars = m.pillars.filter(p=>!p.unknown);
+  const relText = rels => rels?.length ? rels.map(r=>`${r.pillarName}(${r.pillarJi})과 ${r.label}`).join("·") : "원국 지지와 직접적인 합·충·형·파·해 관계가 계산되지 않음";
+  const relationRisk = rels => rels?.some(r=>["충","형","파","해","원진","귀문"].includes(r.kind));
+  const favor = x => [m.yongEl,m.heeEl].includes(x);
+  const yearRead = y => {
+    const hasGood = favor(y.gan.el)||favor(y.ji.el);
+    const hasBad = y.gan.el===m.giEl||y.ji.el===m.giEl;
+    const risk = relationRisk(y.rels);
+    let grade = hasGood && !hasBad && !risk ? "상대적 유리" : hasBad && (risk||!hasGood) ? "주의 필요" : hasGood ? "기회와 부담 병존" : "중립·관리";
+    let areas = [];
+    if (["정재","편재"].some(t=>String(y.ganSip+y.jiSip).includes(t))) areas.push("수입·지출·계약·자산 거래");
+    if (["정관","편관"].some(t=>String(y.ganSip+y.jiSip).includes(t))) areas.push("직장·직책·규정·책임·대외 평가");
+    if (["식신","상관"].some(t=>String(y.ganSip+y.jiSip).includes(t))) areas.push("성과 발표·기술 표현·영업·자녀 관련 일정");
+    if (["정인","편인"].some(t=>String(y.ganSip+y.jiSip).includes(t))) areas.push("학습·자격·문서·지원·회복");
+    if (["비견","겁재"].some(t=>String(y.ganSip+y.jiSip).includes(t))) areas.push("동료·경쟁·동업·수익 배분");
+    if (risk) areas.push("원국 궁성 변동에 따른 관계·거처·직무·일정 조정");
+    return {grade, areas:areas.length?areas.join(" / "):"십성만으로 특정 분야를 좁히기 어려움", hasGood,hasBad,risk};
+  };
+  const currentDayRelations = [...m.curDw.rels,...m.curSw.rels].filter(r=>r.pillarName==="일주");
+  const dayBase = pillars.find(p=>p.name==="일주");
+  const dayHits = currentDayRelations.length ? currentDayRelations.map(r=>`${r.label}(${r.kind})`).join("·") : "현재 대운·세운이 일지와 직접 충·형·파·해하는 작용은 계산되지 않음";
+  const yearRows = m.sewoons.map(y=>{
+    const z=yearRead(y);
+    return `<tr><td>${y.yr}년<br>${y.kor}</td><td>${y.ganSip}/${y.jiSip}</td><td><b>${z.grade}</b></td><td>${z.areas}</td><td>${relText(y.rels)}</td></tr>`;
+  }).join("");
+  const decadeRows = m.daewoons.map(d=>{
+    const good=favor(d.gan.el)||favor(d.ji.el), bad=d.gan.el===m.giEl||d.ji.el===m.giEl, risk=relationRisk(d.rels);
+    const grade=good&&!bad&&!risk?"유리한 기반":bad&&risk?"변동·손실 관리":good?"기회와 부담 병존":"성과보다 내실·관리";
+    return `<tr><td>${d.a1}~${d.a2}세<br>약 ${d.y1}년~</td><td><b>${d.kor}</b></td><td>${d.ganSip}/${d.jiSip}</td><td>${d.unsung} · ${d.sinsal}</td><td>${grade}</td><td>${relText(d.rels)}</td></tr>`;
+  }).join("");
+  const goodMonths=m.wolwoons.filter(w=>favor(w.gan.el)||favor(w.ji.el)).map(w=>`${w.monthNum}월 ${w.kor}`);
+  const cautionMonths=m.wolwoons.filter(w=>w.gan.el===m.giEl||w.ji.el===m.giEl||relationRisk(w.rels)).map(w=>`${w.monthNum}월 ${w.kor}${relationRisk(w.rels)?"(궁성 관계 작용)":"(기신 오행)"}`);
+  const relationLines=[];
+  for(let i=0;i<pillars.length;i++) for(let j=i+1;j<pillars.length;j++){
+    for(const r of evalJiPair(pillars[i].ji.h,pillars[j].ji.h)) relationLines.push(`${pillars[i].name} ${pillars[i].ji.k}와 ${pillars[j].name} ${pillars[j].ji.k}: ${r.label}`);
+  }
+  const specials=pillars.flatMap(p=>p.specials.map(x=>`${p.name} ${p.fullSub} ${x.name} — ${x.meaning} ${x.action}`));
+  const healthDominant=strongest[1]>0?`${elName[strongest[0]]}가 ${strongest[1]}%로 가장 강하고, 전통 오행 배속상 ${elOrgan[strongest[0]]} 계통을 생활관리의 상징적 점검 대상으로 삼습니다.`:"특정 오행의 우세가 두드러지지 않습니다.";
+  const healthWeak=weakest[1]===0?`${elName[weakest[0]]}가 원국 표면 오행 분포에서 0%로 계산됩니다. 전통 배속상 ${elOrgan[weakest[0]]}에 해당하는 생활 리듬을 점검 항목으로 둘 수 있습니다.`:`상대적으로 가장 약한 오행은 ${elName[weakest[0]]} ${weakest[1]}%이며, 전통 배속상 ${elOrgan[weakest[0]]}의 균형을 생활관리 차원에서 살핍니다.`;
+  const currentYear=yearRead(m.curSw);
+  const timeText=m.timeUnknown?"출생시간 미상으로 시주가 확정되지 않아 자녀·말년·후반기 건강의 세부 판단은 제한됩니다.":`시주 ${m.hp.gan.k}${m.hp.ji.k}(${m.hp.gan.h}${m.hp.ji.h}), 시주 십성 ${m.pillars[0].ganSip}/${m.pillars[0].jiSip}을 자녀·후반기 활동의 참고 기준으로 봅니다.`;
+  const sections=[];
+  sections.push(`<p class="story-subhead">1. 원국 핵심 구조와 인생의 기본 성향</p><p><b>${m.clientName}님의 명식은 ${m.dp.gan.h}${m.dp.ji.h}(${m.dp.gan.k}${m.dp.ji.k}) 일주, ${m.gyeokguk}, ${m.strengthLabel}</b>으로 계산됩니다. 일간은 ${m.dp.gan.h}(${elName[m.dp.gan.el]})이고 월지는 ${m.mp.ji.h}(${elName[m.mp.ji.el]})입니다. 오행 분포는 ${pct}, 일간을 돕는 비겁·인성 합산은 ${m.supportPct}%입니다. 용신 ${elName[m.yongEl]}, 희신 ${elName[m.heeEl]}, 기신 ${elName[m.giEl]}로 산출되어, 판단과 선택에서 ${elLife[m.yongEl]}을 보완하고 ${elLife[m.giEl]}이 과도해질 때의 부담을 관리하는 구도가 핵심입니다. ${m.strengthLabel.includes("신강")?"신강 쪽이므로 자기 주도권과 추진력이 장점이지만, 고집·경쟁·독자 판단이 강해질 때 협업과 조정이 약점이 될 수 있습니다.":"신약 쪽이므로 주변의 지원과 환경에 영향을 받기 쉬우며, 책임을 한꺼번에 떠안으면 체력·판단력이 소진될 수 있습니다. 대신 준비·자료·협력자를 확보하면 신중함과 전문성이 강점으로 작동합니다."}</p>`);
+  sections.push(`<p class="story-subhead">2. 성격·재능·장단점의 구체적 발현</p><p>월령에서 산출한 격국은 <b>${m.gyeokguk}</b>이며, 일지 기준 12신살은 <b>${m.dp.sinsalDay}</b>, 연지 기준은 <b>${m.dp.sinsalYear}</b>입니다. 원국 십성 배치는 년주 ${m.pillars.find(p=>p.name==="연주")?.ganSip||"자료 없음"}/${m.pillars.find(p=>p.name==="연주")?.jiSip||"자료 없음"}, 월주 ${m.pillars.find(p=>p.name==="월주")?.ganSip||"자료 없음"}/${m.pillars.find(p=>p.name==="월주")?.jiSip||"자료 없음"}, 일주 ${dayBase?.ganSip||"자료 없음"}/${dayBase?.jiSip||"자료 없음"}입니다. 이 구조에서 강점은 ${elLife[m.yongEl]} 관련 역량을 실제 결과로 만드는 데 두고, 약점은 기신 ${elName[m.giEl]}이 과해질 때 나타나는 과잉 또는 결핍의 형태로 점검해야 합니다. 특히 ${SINSAL_DESC[m.dp.sinsalDay]||"일지 신살의 상징은 성향을 보조하는 참고 요소입니다."} 원국 궁성 사이의 지지 작용은 ${relationLines.length?relationLines.join(" / "):"프로그램 기준으로 뚜렷한 직접 합·충·형·파·해가 확인되지 않음"}입니다. 실제로는 이 작용이 있는 궁성의 주제(부모·직업·배우자·자녀)를 중심으로 사건의 무게를 판단합니다.</p>`);
+  sections.push(`<p class="story-subhead">3. 재물·소득·자산 관리</p><p>재성의 실제 강약은 일간의 감당력과 식상·관성의 연결, 대운의 재성 작동을 함께 봐야 합니다. 이 명식의 용신·희신은 ${elName[m.yongEl]}/${elName[m.heeEl]}, 기신은 ${elName[m.giEl]}입니다. 대운표에서 재성 십성(정재·편재)이 천간 또는 지지에 나타나는 시기는 아래 대운표의 십성 열에서 확인하며, 그 시기라도 기신 오행이나 일지·월지 충형이 겹치면 매출 확대보다 미수금·부채·동업 지분·계약 해지 조건을 우선 점검해야 합니다. 세운상 ${m.targetYear}년은 ${m.curSw.ganSip}/${m.curSw.jiSip}이며, ${currentYear.areas}가 주요 검토 영역입니다. 이 명식만으로 연봉·매출·순자산의 금액을 확정할 수는 없지만, 수익의 원천과 손실 위험을 연도별로 구분해 관리하는 것이 맞습니다.</p>`);
+  sections.push(`<p class="story-subhead">4. 직업·진로·사회적 역할</p><p>직업 판단의 기준은 격국 ${m.gyeokguk}, 용신 ${elName[m.yongEl]}, 희신 ${elName[m.heeEl]}입니다. 용신의 실제 활동 방향은 <b>${elLife[m.yongEl]}</b>이고 희신은 <b>${elLife[m.heeEl]}</b>입니다. 따라서 이 명식은 해당 역량이 활용되는 업무인지, 결과물과 보상이 명확한지, 책임만 늘고 권한·대가가 빠지는 구조인지가 직업 선택의 핵심입니다. 관성 십성이 활성화되는 해에는 조직·직책·평가·규정 이슈, 식상은 성과 발표·영업·기술 표현, 인성은 학습·문서·자격, 비겁은 동료·경쟁·동업, 재성은 수입·계약·자산의 문제로 구체화해 볼 수 있습니다. 아래 세운표에는 해당 연도의 십성 및 원국 지지 작용을 함께 표시했습니다.</p>`);
+  sections.push(`<p class="story-subhead">5. 건강·체질적 주의점과 시기</p><p>원국 오행은 ${pct}입니다. ${healthDominant} ${healthWeak} ${zero.length?`특히 ${zero.map(x=>elName[x]).join("·")} 기운은 원국 분포에서 0%로 계산되어, 해당 오행의 전통적 상징 영역을 균형 있게 관리하는 참고로 삼습니다.`:"오행이 완전히 0%인 항목은 없습니다."} 일지 ${m.dp.ji.h}는 배우자궁이면서 일간이 앉은 자리이므로, 이 자리가 대운·세운에서 충·형·파·해를 받는 해에는 몸의 리듬과 생활환경, 부부의 생활 패턴에 변화가 겹치는지 점검할 시기로 봅니다. 현재 대운·세운의 일지 작용은 <b>${dayHits}</b>입니다. ${m.curSw.yr}년 세운과 ${m.curDw.kor}대운의 오행·십성은 ${m.curDw.ganSip}/${m.curDw.jiSip}, ${m.curSw.ganSip}/${m.curSw.jiSip}이므로, 특히 ${currentYear.grade}로 분류된 해에는 무리한 일정·수면 부족·과로를 줄이고 검진을 미루지 않는 편이 좋습니다. 오행과 충형은 질병 진단이나 특정 장기 질환의 예측 근거가 아니며, 위 장기명은 전통 오행 배속일 뿐 실제 건강 판단은 검사와 의료진 소견이 우선입니다.</p>`);
+  sections.push(`<p class="story-subhead">6. 이성·배우자·부부 관계</p><p>배우자궁은 일지 <b>${m.dp.ji.h}(${m.dp.ji.k})</b>입니다. 원국 내부의 일지 관련 관계는 ${relationLines.filter(x=>x.includes("일주")).join(" / ")||"프로그램 기준으로 직접 합·충·형·파·해가 확인되지 않음"}입니다. 현재 대운·세운이 일지에 미치는 작용은 ${dayHits}입니다. 특히 일지에 충이 들어오는 시기에는 별거·이동·직장 변화·부부 역할 재조정처럼 생활 기반이 흔들리는 주제가 실제로 있는지 살피고, 형·파·해·원진이 겹치면 말다툼·신뢰·금전·가족 간 경계 문제를 관리해야 합니다. 이는 이혼이나 외도를 단정하는 뜻이 아닙니다. 세운표에서 일주와 관계 작용이 표시된 해를 관계 조정의 점검 시기로 삼고, 중요한 결정은 대화와 현실 조건을 확인한 뒤 내리는 것이 적절합니다.</p>`);
+  sections.push(`<p class="story-subhead">7. 자녀·후반기 활동·말년운</p><p>${timeText} 시주에 충·형·파·해가 들어오는 대운·세운은 자녀의 독립·진로 변화, 거주지·생활 반경 변화, 본인의 후반기 활동 방식이 바뀌는 시점으로 참고합니다. 다만 부모 명식만으로 자녀의 합격·취업·혼인·건강 사건을 확정할 수 없습니다. 시간 미상일 때는 시주를 활용한 자녀·말년 판단을 유보하고, 시간 입력이 정확한 경우에도 실제 사건은 자녀 본인의 명식과 환경을 별도로 확인해야 합니다.</p>`);
+  sections.push(`<p class="story-subhead">8. 대운 10년 단위의 인생 흐름</p><p>아래 표는 계산된 10개 대운 각각의 연령대, 간지, 천간·지지 십성, 십이운성·12신살, 원국 궁성과의 직접 관계를 한 줄로 정리한 것입니다. ‘유리한 기반’은 용·희신이 작동하고 직접적인 충형 위험이 상대적으로 적다는 뜻이며, ‘변동·손실 관리’는 기신과 궁성 작용이 겹쳐 계약·건강·관계·직무의 방어가 중요하다는 뜻입니다. 길흉은 사건 확정이 아니라 해당 10년의 우선 관리 주제를 표시합니다.</p><div class="table-scroll"><table><thead><tr><th>연령·시작연도</th><th>대운</th><th>천간/지지 십성</th><th>12운성·12신살</th><th>흐름 판단</th><th>원국 작용</th></tr></thead><tbody>${decadeRows}</tbody></table></div>`);
+  sections.push(`<p class="story-subhead">9. 세운별 구체적 길흉·사건 주제</p><p>${m.targetYear-3}년부터 ${m.targetYear+6}년까지의 세운을 표로 정리했습니다. ‘유리’는 용·희신이 천간이나 지지에 드러난 경우, ‘주의’는 기신이 작동하고 원국과 충·형·파·해 등이 겹치는 경우를 우선 표시했습니다. 사건 주제는 십성에 따라 직장·문서·재물·동업·성과·관계 등으로 좁혀 제시합니다. 같은 해라도 대운의 배경과 실제 선택에 따라 결과는 달라질 수 있습니다.</p><div class="table-scroll"><table><thead><tr><th>연도·간지</th><th>천간/지지 십성</th><th>흐름</th><th>주요 점검 분야</th><th>원국과의 구체적 작용</th></tr></thead><tbody>${yearRows}</tbody></table></div>`);
+  sections.push(`<p class="story-subhead">10. 신살·공망·합형충파해의 실제 적용</p><p>일주 기준 공망은 <b>${m.gongmang.map(x=>`${x.k}(${x.h})`).join("·")}</b>입니다. 원국에서 계산된 관계는 ${relationLines.length?relationLines.join(" / "):"대표적인 합·충·형·파·해가 확인되지 않음"}입니다. 특수 신살은 ${specials.length?specials.join(" / "):"프로그램 기준으로 확인된 특수 신살이 없습니다."}입니다. 신살은 독립적으로 사건을 확정하는 근거가 아니라, 해당 궁성에 대운·세운의 충형이나 십성 작용이 함께 들어올 때 보조적으로 참고합니다.</p>`);
+  sections.push(`<p class="story-subhead">11. 기준 연도 월운과 실제 행동 시기</p><p>${m.targetYear}년 월운 중 용·희신 오행이 나타나는 달은 <b>${goodMonths.join(" / ")||"뚜렷하게 선별되지 않음"}</b>입니다. 기신 오행 또는 원국과의 충·형·파·해 관계가 나타나는 달은 <b>${cautionMonths.join(" / ")||"뚜렷하게 선별되지 않음"}</b>입니다. 현재 선택한 ${m.targetMonth}월(${m.curMw.kor})은 천간·지지 십성 ${m.curMw.ganSip}/${m.curMw.jiSip}, 12신살 ${m.curMw.sinsal}입니다. 월운은 절기 기준으로 실제 양력 월 초·말과 차이가 날 수 있으므로 계약·이동·수술 등 중요한 일정은 절입일을 확인해야 합니다. 좋은 달에는 준비된 계약·발표·확장을 진행하되, 주의 달에는 현금·문서·안전·건강 점검을 먼저 하는 방식이 합리적입니다.</p>`);
+  sections.push(`<p class="story-subhead">12. 최종 요약 및 개운의 실행 항목</p><p>이 명식의 핵심은 <b>${m.gyeokguk}·${m.strengthLabel}·용신 ${elName[m.yongEl]}·희신 ${elName[m.heeEl]}·기신 ${elName[m.giEl]}</b>입니다. 인생에서 집중할 분야는 ${elLife[m.yongEl]}이며, 기신 ${elName[m.giEl]}의 과도한 작동으로 나타날 수 있는 ${elLife[m.giEl]} 관련 부담을 줄이는 것이 실천 방향입니다. 재정은 보증·과도한 차입·회수 불명확한 투자 금지, 직업은 역할·보수·책임 범위를 문서화, 관계는 금전·가족·시간 배분을 사전 합의, 건강은 오행 상징에 기대어 자가진단하지 말고 정기검진과 생활습관으로 관리하십시오. 아래 표의 특정 연도에 충·형·파·해가 표시되면 해당 궁성의 주제에 실제 변화가 있는지 확인하고, 길한 흐름이라도 준비되지 않은 확장은 피하는 것이 이 명식에 맞는 현실적 개운법입니다.</p>`);
+  return sections.join("");
+}
+
+function cleanUndefinedOutput() {
+  // Optional calculation fields can be absent for some birth-time or chart conditions.
+  // Never expose JavaScript's raw missing-value tokens in the user-facing report.
+  const root = document.querySelector('.main-wrap');
+  if (!root) return;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(node => {
+    node.nodeValue = node.nodeValue
+      .replace(/\bundefined\b/g, '해당 정보 없음')
+      .replace(/\bNaN\b/g, '계산 불가');
+  });
+  root.querySelectorAll('[title], [aria-label]').forEach(el => {
+    ['title', 'aria-label'].forEach(attr => {
+      const value = el.getAttribute(attr);
+      if (value) el.setAttribute(attr, value.replace(/\bundefined\b/g, '해당 정보 없음').replace(/\bNaN\b/g, '계산 불가'));
+    });
+  });
+}
+
+function renderAll() {
+  const required = [
+    ["inpName", "이름 또는 호칭을 입력해 주세요."],
+    ["selGender", "성별을 선택해 주세요."],
+    ["inpBirthDate", "생년월일을 입력해 주세요."],
+    ["selTimeUnknown", "출생시간 여부를 선택해 주세요."],
+    ["inpTargetYear", "기준 세운 연도를 입력해 주세요."],
+    ["selTargetMonth", "기준 월을 선택해 주세요."]
+  ];
+  for (const [id, message] of required) {
+    const el = document.getElementById(id);
+    if (!el.value) { alert(message); el.focus(); return; }
+  }
+  if (document.getElementById("selTimeUnknown").value === "known" &&
+      !document.getElementById("inpBirthTime").value) {
+    alert("출생시간을 입력하거나 '시간 모름'을 선택해 주세요.");
+    document.getElementById("inpBirthTime").focus(); return;
+  }
+  const m = buildModel();
+  const gText = m.gender === "F" ? "곤명·여" : "건명·남";
+  document.title = `${m.clientName}(${m.dp.gan.k}${m.dp.ji.k}일주)_${m.gender === "F" ? "여" : "남"}_${m.rawY}${String(m.rawM).padStart(2,"0")}${String(m.rawD).padStart(2,"0")}_${m.timeUnknown ? "시간미상" : String(m.rawHH).padStart(2,"0")+String(m.rawMM).padStart(2,"0")}`;
+
+  // Section 2
+  document.getElementById("sec2Title").textContent = `2. ${m.clientName}님 (${gText}) 사주 원국 만세력 표`;
+  document.getElementById("manseryeokMeta").textContent =
+    `진태양시 보정 일시: ${m.solar.note} | 대운방향: ${m.isFwd ? "순행(順行)" : "역행(逆行)"} (대운수 ${m.mp.dwStart}) | 일주 공망(空亡): ${m.gongmang.map(x => x.k + x.h).join("·")}`;
+
+  let t2 = `<table><thead><tr><th>구분</th>`;
+  m.pillars.forEach(p => { t2 += `<th>${p.name} (${p.sub})</th>`; });
+  t2 += `</tr></thead><tbody>`;
+  t2 += `<tr><td class="left"><b>천간 십성</b></td>` + m.pillars.map(p => `<td>${p.ganSip}</td>`).join("") + `</tr>`;
+  t2 += `<tr><td class="left"><b>천간(天干)</b></td>` + m.pillars.map(p => p.unknown ? `<td>미상</td>` : `<td><span class="hanja-lg el-${p.gan.el}">${p.gan.h}</span>${p.gan.k} (${p.gan.el})</td>`).join("") + `</tr>`;
+  t2 += `<tr><td class="left"><b>지지(地支)</b></td>` + m.pillars.map(p => p.unknown ? `<td>미상</td>` : `<td><span class="hanja-lg el-${p.ji.el}">${p.ji.h}</span>${p.ji.k}(${p.ji.el})${p.isGm ? " <b>공망</b>" : ""}</td>`).join("") + `</tr>`;
+  t2 += `<tr><td class="left"><b>지지 십성</b></td>` + m.pillars.map(p => `<td>${p.jiSip}</td>`).join("") + `</tr>`;
+  t2 += `<tr><td class="left"><b>지장간</b></td>` + m.pillars.map(p => `<td>${p.hidText}</td>`).join("") + `</tr>`;
+  t2 += `<tr><td class="left"><b>십이운성</b></td>` + m.pillars.map(p => `<td>${p.unsung}</td>`).join("") + `</tr>`;
+  t2 += `<tr><td class="left"><b>12신살 (일지/년지)</b></td>` + m.pillars.map(p => `<td>${p.unknown ? "-" : `일: ${p.sinsalDay}<br>년: ${p.sinsalYear}`}</td>`).join("") + `</tr>`;
+  t2 += `</tbody></table>`;
+  document.getElementById("manseryeokTableWrap").innerHTML = t2;
+
+  document.getElementById("ohengDiagStrip").innerHTML =
+    `<b>원국 오행 세력 분포:</b> 목(木): ${m.elPct.목}% · 화(火): ${m.elPct.화}% · 토(土): ${m.elPct.토}% · 금(金): ${m.elPct.금}% · 수(水): ${m.elPct.수}%<br>` +
+    `→ <b>신강/신약 판정:</b> ${m.strengthLabel} (비겁·인성 비율 ${m.supportPct}%) | <b>격국:</b> ${m.gyeokguk} (월지 본기(정기) 기준) | <b>핵심 용신:</b> ${m.yongEl} (희신: ${m.heeEl}, 기신: ${m.giEl})`;
+
+  document.getElementById("storySummaryBox").innerHTML = buildComprehensiveStory(m);
+
+  // Section 3: Daewoon
+  let dwTbl = `<table><thead><tr><th>대운수(나이)</th>` + m.daewoons.map(d => `<th>${d.a1}세<br>(${d.y1}~)</th>`).join("") + `</tr></thead><tbody>`;
+  dwTbl += `<tr><td><b>천간십성</b></td>` + m.daewoons.map(d => `<td>${d.ganSip}</td>`).join("") + `</tr>`;
+  dwTbl += `<tr><td><b>대운 간지</b></td>` + m.daewoons.map(d => `<td><b>${d.text}</b><br>${d.kor}</td>`).join("") + `</tr>`;
+  dwTbl += `<tr><td><b>지지십성/12신살</b></td>` + m.daewoons.map(d => `<td>${d.jiSip}(${d.unsung})<br>${d.sinsal}</td>`).join("") + `</tr>`;
+  dwTbl += `</tbody></table>`;
+  document.getElementById("daewoonTableWrap").innerHTML = dwTbl;
+
+  document.getElementById("daewoonDetailList").innerHTML = m.daewoons.map(d => {
+    const isCur = d.a1 === m.curDw.a1;
+    const relTxt = d.rels.map(r => `${r.pillarName}(${r.pillarJi}) ${r.label}`).join(", ") || "특이 충돌 없음";
+    return `<li class="${isCur ? "highlight-item" : ""}">` +
+      `<b>${isCur ? "[현재 대운] " : "• "}${d.a1}세~ (${d.y1}년~) ${d.kor}대운</b> — 천간 ${d.ganSip}(${elRoleTag(d.gan.el, m)}) / 지지 ${d.jiSip}(${elRoleTag(d.ji.el, m)}, ${d.unsung}, 12신살: ${d.sinsal}) | 원국 작용: ${relTxt}<br>` +
+      `<span style="color:#374151;">해석: ${SINSAL_DESC[d.sinsal]}</span></li>`;
+  }).join("");
+
+  // Section 3: Sewoon
+  let swTbl = `<table><thead><tr><th>연도(나이)</th>` + m.sewoons.map(s => `<th${s.isCur ? ' style="background:#fff3cd;"' : ""}>${s.yr}년<br>(${s.age}세)</th>`).join("") + `</tr></thead><tbody>`;
+  swTbl += `<tr><td><b>천간십성</b></td>` + m.sewoons.map(s => `<td>${s.ganSip}</td>`).join("") + `</tr>`;
+  swTbl += `<tr><td><b>세운 간지</b></td>` + m.sewoons.map(s => `<td><b>${s.text}</b><br>${s.kor}</td>`).join("") + `</tr>`;
+  swTbl += `<tr><td><b>지지십성/12신살</b></td>` + m.sewoons.map(s => `<td>${s.jiSip} (${s.unsung})<br>${s.sinsal}</td>`).join("") + `</tr>`;
+  swTbl += `</tbody></table>`;
+  document.getElementById("sewoonTableWrap").innerHTML = swTbl;
+
+  document.getElementById("sewoonDetailList").innerHTML = m.sewoons.map(s => {
+    const relTxt = s.rels.map(r => `${r.pillarName}(${r.pillarJi}) ${r.label}`).join(", ") || "특이 충돌 없음";
+    return `<li class="${s.isCur ? "highlight-item" : ""}">` +
+      `<b>${s.isCur ? "[기준 세운] " : "• "}${s.yr}년 (${s.age}세) ${s.kor}년</b> — 천간 ${s.ganSip}(${elRoleTag(s.gan.el, m)}) / 지지 ${s.jiSip}(${elRoleTag(s.ji.el, m)}, ${s.unsung}, 12신살: ${s.sinsal}) | 원국 작용: ${relTxt}<br>` +
+      `<span style="color:#374151;">해석: ${SINSAL_DESC[s.sinsal]}</span></li>`;
+  }).join("");
+
+  // Section 3: Wolwoon
+  document.getElementById("wolwoonSubTitle").textContent = `${m.targetYear}년 월운표 (12개월 절기 기준)`;
+  let mwTbl = `<table><thead><tr><th>양력 월</th>` + m.wolwoons.map(w => `<th${w.monthNum === m.targetMonth ? ' style="background:#fff3cd;"' : ""}>${w.monthNum}월</th>`).join("") + `</tr></thead><tbody>`;
+  mwTbl += `<tr><td><b>천간십성</b></td>` + m.wolwoons.map(w => `<td>${w.ganSip}</td>`).join("") + `</tr>`;
+  mwTbl += `<tr><td><b>월운 간지</b></td>` + m.wolwoons.map(w => `<td><b>${w.text}</b><br>${w.kor}</td>`).join("") + `</tr>`;
+  mwTbl += `<tr><td><b>지지십성/12신살</b></td>` + m.wolwoons.map(w => `<td>${w.jiSip}<br>${w.sinsal}</td>`).join("") + `</tr>`;
+  mwTbl += `</tbody></table>`;
+  document.getElementById("wolwoonTableWrap").innerHTML = mwTbl;
+
+  // Section 4
+  const zeroEls = Object.entries(m.elPct).filter(([, v]) => v === 0).map(([k]) => `${k}(0%)`);
+  const highEls = Object.entries(m.elPct).filter(([, v]) => v >= 40).map(([k, v]) => `${k}(${v}%)`);
+  const curDwRels = m.curDw.rels.map(r => `<div class="gung-item"><b>[대운 ${m.curDw.kor} ↔ ${r.pillarName}(${r.fullSub}) ${r.pillarJi}] ${r.label}</b> — 변동 십성(${r.pillarJiSip}) 영역에서 환경 재편과 역할 조정이 일어납니다.</div>`).join("");
+  const curSwRels = m.curSw.rels.map(r => `<div class="gung-item"><b>[${m.targetYear} 세운 ${m.curSw.kor} ↔ ${r.pillarName}(${r.fullSub}) ${r.pillarJi}] ${r.label}</b> — 사건·변동 십성(${r.pillarJiSip}) 영역에서 일정·문서·관계 변화가 감지되므로 조건 확인과 방어적 조율이 필요합니다.</div>`).join("");
+
+  document.getElementById("section4Container").innerHTML = `
+    <div class="diag-block">
+      <div class="diag-head">
+        <h3>① 본원 물상(物象) 및 타고난 성향·재능·문제점</h3>
+        <span class="pill-badge">${m.dp.gan.k}${m.dp.gan.el}(${m.dp.gan.h}${m.dp.gan.el === "목" ? "木" : ""}) · ${m.strengthLabel}</span>
+      </div>
+      <div class="diag-body">
+        <span class="box-tag tag-comp">종합 해석</span>
+        <p><b>[타고난 기질과 강점]</b> 주도성, 자존심, 성장 욕구가 강하며 굽히기보다 스스로 기준을 세우는 직선적 기질이 있습니다. 남 밑에 있기보다 스스로 판을 짜고 이끄는 리더형이며, 일지 12신살 <b>[${m.dp.sinsalDay}]</b>의 기운으로 해당 영역의 중심을 장악하고 책임감 있게 추진하는 힘이 강합니다.</p>
+        <p><b>[현실적 문제점과 약점]</b> 내 편이 되어주는 비겁·인성 비율이 <b>${m.supportPct}% (${m.strengthLabel})</b>입니다. 주변 상황이나 타인의 부탁을 떠안다 보면 에너지가 빠르게 소진될 수 있으므로, 선택과 집중 및 체력 관리가 핵심입니다.</p>
+        <p><b>[핵심 재능과 추천 직업군]</b> 핵심 용신 <b>${m.yongEl}</b>과 <b>${m.gyeokguk}</b>의 강점을 살릴 수 있는 기획·설계·교육·디자인·건축·기술자문·인문/명리 상담 분야에서 두각을 나타냅니다.</p>
+        <div class="pro-box">
+          <span class="box-tag tag-pro">전문 해석 및 검증</span>
+          <div>• <b>적천수(滴天髓) 검증:</b> 「적천수」 체용론(體用論)에 따라 일간의 득령·득지·득세를 따져 <b>${m.strengthLabel}</b>으로 판별했습니다. 용신 <b>${m.yongEl}</b>, 희신 <b>${m.heeEl}</b>로 생조하여 본원을 세울 때 안정적인 성취를 이룹니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-block">
+      <div class="diag-head">
+        <h3>② 격국(格局)·용신(用神) 및 궁성(宮星)의 변화와 작용</h3>
+        <span class="pill-badge">${m.gyeokguk} · 용신 ${m.yongEl}</span>
+      </div>
+      <div class="diag-body">
+        <span class="box-tag tag-comp">종합 해석</span>
+        <p><b>[사회적 성패의 틀]</b> 사회생활과 직업적 성취를 결정짓는 핵심 틀은 <b>${m.gyeokguk}</b>입니다. 현실 감각, 결과 중심 사고, 자원 관리와 사업 수완이 뛰어납니다.</p>
+        ${m.pillars.filter(p => !p.unknown).map(p => `
+          <div class="gung-item">
+            <b>▶ ${p.name} (${p.fullSub} · ${p.gan.k}${p.ji.k})</b> | 십성: ${p.ganSip}/${p.jiSip} ${p.specials.length ? `| 특수신살: ${p.specials.map(x => x.name).join(", ")}` : ""}<br>
+            • 12신살 <b>[${p.sinsalDay}]</b>: ${SINSAL_DESC[p.sinsalDay]}
+          </div>
+        `).join("")}
+        <div class="pro-box">
+          <span class="box-tag tag-pro">전문 해석 및 검증</span>
+          <div>• <b>자평진전(子平真詮) 검증:</b> 「자평진전」 월령용신 법칙에 의거, 월지 ${m.mp.ji.k}(${m.mp.ji.h}) 본기를 기준으로 <b>${m.gyeokguk}</b>이 성립하며 용신 <b>${m.yongEl}</b>, 희신 <b>${m.heeEl}</b>, 기신 <b>${m.giEl}</b> 배합이 작동합니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-block">
+      <div class="diag-head">
+        <h3>③ 12신살 · 길흉신살 · 공망(空亡) 및 합형충파해·원진·귀문 분석</h3>
+        <span class="pill-badge">공망 ${m.gongmang.map(x => x.k).join("·")}</span>
+      </div>
+      <div class="diag-body">
+        <span class="box-tag tag-comp">종합 해석</span>
+        <p><b>[순중공망]</b> 일주 기준 비어 있는 기운은 <b>${m.gongmang.map(x => `${x.k}(${x.h})`).join("과 ")}</b>입니다. 공망이 걸린 영역에서는 물질적 집착보다 정신적·전문적 성취로 방향을 잡아야 허무함과 손실을 막습니다.</p>
+        ${m.pillars.filter(p => !p.unknown).flatMap(p => p.specials.map(sp => `
+          <div class="gung-item">
+            <b>▶ [${p.name} · ${p.fullSub}] ${sp.name} (${sp.type})</b><br>
+            • 의미 및 활용: ${sp.meaning} ${sp.action}
+          </div>
+        `)).join("")}
+        <div class="pro-box">
+          <span class="box-tag tag-pro">전문 해석 및 검증</span>
+          <div>• <b>신살명리 교차 검증:</b> 원국 4대 궁성 간 합·충·형·파·해 및 귀문관살·원진살과 천을귀인·현침살 등 주요 신살을 결합하여 길흉 발현 위치를 특정했습니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-block">
+      <div class="diag-head">
+        <h3>④ 대세운 궁성(宮星) 변화 · 12신살 흐름 및 건강·부모·배우자운</h3>
+        <span class="pill-badge">${m.curDw.a1}세 대운(${m.curDw.sinsal}) · ${m.targetYear} 세운(${m.curSw.sinsal})</span>
+      </div>
+      <div class="diag-body">
+        <span class="box-tag tag-comp">종합 해석</span>
+        <p>• <b>10년 대운 (${m.curDw.a1}세 ${m.curDw.kor}):</b> 십성은 ${m.curDw.ganSip}/${m.curDw.jiSip}, 12신살은 <b>${m.curDw.sinsal}</b>입니다. → ${SINSAL_DESC[m.curDw.sinsal]}</p>
+        <p>• <b>${m.targetYear}년 세운 (${m.curSw.kor}):</b> 십성은 ${m.curSw.ganSip}/${m.curSw.jiSip}, 12신살은 <b>${m.curSw.sinsal}</b>입니다. → ${SINSAL_DESC[m.curSw.sinsal]}</p>
+        ${curDwRels}${curSwRels}
+        <p><b>[건강운 및 취약 장기]</b> ${zeroEls.length ? `원국에 ${zeroEls.join(", ")} 기운이 부족하여 순환기·혈압·시력 계통의 정기 관리가 필요하며, ` : ""}${highEls.length ? `${highEls.join(", ")} 기운이 강해 소화기·대사 균형 관리에 유의해야 합니다.` : "오행 순환과 수면·규칙적 운동 관리가 중요합니다."}</p>
+        <div class="pro-box">
+          <span class="box-tag tag-pro">전문 해석 및 검증</span>
+          <div>• <b>고전 종합 검증:</b> 「적천수」 병약론과 「자평진전」 성패론에 따라 대운 <b>${m.curDw.kor}(${m.curDw.sinsal})</b>과 세운 <b>${m.curSw.kor}(${m.curSw.sinsal})</b>이 용신(${m.yongEl})을 돕는 시기를 선별해 실행 전략을 수립합니다.</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Section 5
+  const goodMonths = m.wolwoons.filter(w => w.gan.el === m.yongEl || w.gan.el === m.heeEl || w.ji.el === m.yongEl || w.ji.el === m.heeEl)
+    .map(w => `${w.monthNum}월(${w.kor}·${w.sinsal})`);
+  const cautionMonths = m.wolwoons.filter(w => w.rels.some(r => r.kind === "충" || r.kind === "형") || w.ji.el === m.giEl)
+    .map(w => `${w.monthNum}월(${w.kor}·${w.sinsal})`);
+  const mwRelsTxt = m.curMw.rels.map(r => `원국 ${r.pillarName}(${r.fullSub}·${r.pillarJi}) ↔ ${m.targetMonth}월운(${m.curMw.ji.k}) ${r.label}`).join(" / ") || "특이 충돌 없음";
+
+  document.getElementById("section5Container").innerHTML = `
+    <div class="diag-block">
+      <div class="diag-head">
+        <h3>질문 대입 명리 정밀 진단 (${m.targetYear}년 ${m.targetMonth}월 기준)</h3>
+        <span class="pill-badge">질문: "${m.question}"</span>
+      </div>
+      <div class="diag-body">
+        <span class="box-tag tag-comp">종합 해석</span>
+        <p><b>1. 종합 판정:</b> 보수적 방어 및 시기 조절 권고 (변동·리스크 주의)</p>
+        <p><b>2. 시기별 흐름 및 궁성·신살 대입 풀이:</b></p>
+        <div class="gung-item">
+          • <b>10년 대운(${m.curDw.a1}세 ${m.curDw.kor}):</b> ${m.curDw.ganSip}·${m.curDw.jiSip} 및 12신살 <b>${m.curDw.sinsal}</b>의 기운이 깔려 있어, 간접적인 환경 변화 속에서 내실을 다지며 움직여야 하는 시기입니다.<br>
+          • <b>${m.targetYear}년 세운(${m.curSw.kor}):</b> ${m.curSw.ganSip}·${m.curSw.jiSip} 및 12신살 <b>${m.curSw.sinsal}</b>의 사건이 현실화되는 해입니다. 외부 변수나 주변 상황으로 계획이 수정될 수 있으므로 무리한 확장이나 보증·선투자는 피해야 합니다.<br>
+          • <b>선택하신 ${m.targetMonth}월 월운(${m.curMw.kor}):</b> ${m.curMw.ganSip}·${m.curMw.jiSip}이 작동하며 12신살 <b>[${m.curMw.sinsal}]</b>이 발현됩니다. (${mwRelsTxt}) 계약 조건 재확인, 일정 점검, 감정적 마찰 대비가 유리합니다.
+        </div>
+        <p><b>3. ${m.targetYear}년 중 유리한 달 vs 주의할 달:</b><br>
+          • <b>유리한 시기:</b> ${goodMonths.join(", ") || "상반기 안정 구간"}<br>
+          • <b>주의할 시기:</b> ${cautionMonths.join(", ") || "충·형 변동 구간"}
+        </p>
+        <div class="pro-box">
+          <span class="box-tag tag-pro">전문 해석 및 검증</span>
+          <div>• <b>원국·대운·세운·월운 4중 대입 검증:</b> 일간 ${m.dp.gan.k}(${m.dp.gan.el}) 기준, 대운(${m.curDw.kor}) + 세운(${m.curSw.kor}) + 월운(${m.curMw.kor})의 흐름과 궁성 작용(${mwRelsTxt})을 대조해 보수적 운용과 단계적 실행을 권고합니다.</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Section 6
+  document.getElementById("section6Container").innerHTML = `
+    <div class="advice-grid">
+      <div class="advice-card">
+        <h4>1. ${m.clientName}님 사주의 핵심 정체성 (길흉의 뿌리)</h4>
+        <p>${m.clientName}님은 <b>${m.dp.gan.k}${m.dp.ji.k}일주</b>(일지 12신살: ${m.dp.sinsalDay})의 <b>${m.strengthLabel}</b> 명식이며, 사회적 무기는 <b>${m.gyeokguk}</b>입니다. 핵심 용신은 <b>${m.yongEl}</b>(희신: ${m.heeEl})이고, 경계해야 할 기신은 <b>${m.giEl}</b>입니다.</p>
+      </div>
+      <div class="advice-card">
+        <h4>2. 반드시 살려야 할 길(吉)한 포인트</h4>
+        <p>• 본인의 강점인 <b>${m.gyeokguk}</b>의 전문성과 <b>${m.yongEl}</b> 분야에 집중할 때 가장 안정적인 성취가 따릅니다.<br>• 현재 <b>${m.curDw.a1}세 대운(${m.curDw.kor}·${m.curDw.sinsal})</b>과 <b>${m.targetYear}년 세운(${m.curSw.kor}·${m.curSw.sinsal})</b>의 흐름 속에서 실속 있는 전략이 유효합니다.</p>
+      </div>
+      <div class="advice-card">
+        <h4>3. 냉정하게 대비해야 할 흉(凶)한 리스크</h4>
+        <p>• 주변 상황과 타인의 부탁에 끌려다니다 에너지와 실속을 동시에 잃는 것을 경계해야 합니다.<br>• 일주 공망인 <b>${m.gongmang.map(x => x.k).join("·")}</b> 영역은 결과물을 100% 소유하려 하기보다 과정과 전문성 축적에 무게를 둘 때 손실을 피합니다.</p>
+      </div>
+      <div class="advice-card">
+        <h4>4. 입력하신 질문("${m.question}")에 대한 최종 행동 지침</h4>
+        <p>• <b>결론:</b> ${m.targetYear}년 ${m.targetMonth}월 기준 <b>[보수적 방어 및 시기 조절 권고]</b> 흐름입니다.<br>• <b>실행 전략:</b> 가급적 기운이 받쳐주는 <b>${goodMonths.slice(0, 4).join(", ")}</b>에 핵심 결정이나 계약을 배치하시고, 변동이 큰 <b>${cautionMonths.slice(0, 3).join(", ")}</b>에는 현상 유지와 조건 검증에 집중하시기 바랍니다.</p>
+      </div>
+    </div>
+  `;
+
+  cleanUndefinedOutput();
+}
+
+document.addEventListener("click", function(e) {
+  const btn = e.target.closest ? e.target.closest("button") : null;
+  if (!btn) return;
+  if (btn.id === "btnRun") {
+    renderAll();
+  } else if (btn.id === "btnReset") {
+    document.getElementById("inpName").value = "";
+    document.getElementById("selGender").value = "";
+    document.getElementById("inpBirthDate").value = "";
+    document.getElementById("inpBirthTime").value = "";
+    document.getElementById("selTimeUnknown").value = "";
+    document.getElementById("inpTargetYear").value = "";
+    document.getElementById("selTargetMonth").value = "";
+    document.getElementById("inpQuestion").value = "";
+    document.getElementById("sec2Title").textContent = "2. 사주 원국 만세력 표";
+    document.getElementById("manseryeokMeta").textContent = "";
+    ["manseryeokTableWrap","ohengDiagStrip","storySummaryBox","daewoonTableWrap",
+     "sewoonTableWrap","wolwoonTableWrap","section4Container","section5Container","section6Container",
+     "daewoonDetailList","sewoonDetailList"].forEach(id => document.getElementById(id).innerHTML = "");
+  } else if (btn.id === "btnPrintPdf" || btn.id === "btnBottomPrint") {
+    renderAll();
+    window.print();
+  }
+});
+
+</script>
+</body>
+</html>
